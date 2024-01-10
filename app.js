@@ -10,11 +10,19 @@ const PORT=process.env.PORT||8000;
 app.get('/',async(req,res)=>{
     res.send("Welcome To Online Code Runner Application")
 })
+app.get('/Api:id',async(req,res)=>{
+    const language=req.params;
+    console.log(language);
+})
 app.post('/code',async(req,res)=>{
     const id=req.headers;
     const {code,language}=req.body;
     const FileName=`Main.${language}`
-    fs.writeFileSync(FileName,code);
+    try{
+        fs.writeFileSync(FileName,code);
+    }catch(err){
+        console.log("Error Message  ",err);
+    }
     const child_process=exec(`g++ Main.cpp -o Main && ./Main`,(error,stdout,stderr)=>{
         if(error){
             res.send({
