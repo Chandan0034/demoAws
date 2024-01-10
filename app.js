@@ -1,5 +1,6 @@
 const express=require('express');
 const cors=require('cors')
+const path=require('path');
 const {exec}=require('child_process')
 const fs=require('fs')
 const app=express();
@@ -18,6 +19,8 @@ app.post('/code',async(req,res)=>{
     const id=req.headers;
     const {code,language}=req.body;
     const FileName=`Main.${language}`
+    const filePath=path.join(__dirname,FileName)
+    console.log(filePath)
     try{
         fs.writeFileSync(FileName,code);
     }catch(err){
